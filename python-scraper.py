@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.options import Options
 def setup_chrome():
     options = Options()
     options.add_experimental_option(
-        "prefs", {"download.prompt_for_download": False, "safebrowsing.enabled": True}
+        "prefs", {"download.prompt_for_download": False, "safebrowsing.enabled": True}, "useAutomationExtension", False
     )
     driver = webdriver.Chrome(options=options)
     return driver
