@@ -23,7 +23,7 @@ def signon(wd, url_path):
     time.sleep(3)
     form_textfield = ""
     action = ""
-    file_path = "C:\\Users\\Almezing\\Documents\\GitHub\\scraper\\X.txt"
+    file_path = f"{str(os.getcwd())}\\X\\X.txt"
     xpath_list = [
         '//*[@id="ius-userid"]',
         '//*[@id="ius-password"]',
