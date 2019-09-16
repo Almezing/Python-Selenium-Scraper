@@ -1,2 +1,3 @@
-X.txt
-*.txt
+#ignore  files
+/X/*
+tempCodeRunnerFile.py
