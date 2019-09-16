@@ -120,7 +120,7 @@ def scape_info(wd, url_path):
     try:
         wd.get(url_path["first_page_path"])
         for page in range(1, int(last_page)):
-            table = wd.find_elements_by_xpath(xpath_list[1])            
+            table = wd.find_elements_by_xpath(xpath_list[1])
             for row in table:
                 date = []
                 description = []
@@ -145,7 +145,7 @@ def scape_info(wd, url_path):
                 temp = list(zip(date, description, cat, amount))
 
             data_dump.append(temp)
-            time.sleep(3)            
+            time.sleep(3)
             next_page = wd.find_element_by_xpath(xpath_list[3])
             print(f"Current page {page} returned {len(date), len(description), len(cat), len(amount)} Next page {next_page.text}")
             next_page.click()
