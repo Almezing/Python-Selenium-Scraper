@@ -1,10 +1,10 @@
 import time
 import os
 import pickle
+import xlwings as xw
 import fileinput as fs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
 
 # TODO data consolidate
 
@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.options import Options
 def setup_chrome():
     options = Options()
     options.add_experimental_option(
-        "prefs", {"download.prompt_for_download": False, "safebrowsing.enabled": True}, "useAutomationExtension", False
+        "prefs", {"download.prompt_for_download": False, "safebrowsing.enabled": True}
     )
     driver = webdriver.Chrome(options=options)
     return driver
@@ -64,9 +64,10 @@ def sigoff(wd):
 
 
 # TODO download file
-def download_file(wd, url_path):
+def download_handler(wd, url_path):
     time.sleep(5)
-    local_download_path = "C:\\Users\\Almezing\\Downloads"
+    cwd = str(os.getcwd())
+    local_download_path = os.path.expanduser("~") + "\\Downloads"
     download_file = ""
     try:
         wd.get(url_path["download_path"])
@@ -74,11 +75,16 @@ def download_file(wd, url_path):
         time.sleep(5)
         download_file = max(
             [file for file in os.listdir(local_download_path)],
-            key=lambda x: os.path.getctime(os.path.join(local_download_path, x)),
-        )
+            key=lambda x: os.path.getctime(os.path.join(local_download_path, x)))
         print(f"File {download_file} has been downloaded")
     except:
         print("Fail to download")
+    try:
+        with open(cwd + "dump", "wb") as f:
+            pickle.dump(this, f, pickle.HIGHEST_PROTOCOL)
+        print("Object saved")
+    except:
+        print("Failed to save object")
 
 
 # TODO scraper
@@ -148,7 +154,9 @@ def scape_info(wd, url_path):
             data_dump.append(temp)
             time.sleep(3)
             next_page = wd.find_element_by_xpath(xpath_list[3])
-            print(f"Current page {page} returned {len(date), len(description), len(cat), len(amount)} Next page {next_page.text}")
+            print(
+                f"Current page {page} returned {len(date), len(description), len(cat), len(amount)} Next page {next_page.text}"
+            )
             next_page.click()
 
             time.sleep(2)
@@ -168,9 +176,9 @@ def main():
     wd = setup_chrome()
 
     signon(wd, url_path)
-    # download_file(wd, url_path)
+    # download_handler(wd, url_path)
     scape_info(wd, url_path)
-    
+
     time.sleep(10)
     sigoff(wd)
 

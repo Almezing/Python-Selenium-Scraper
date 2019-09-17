@@ -1,6 +1,6 @@
 #ignore  files
 /X/*
-tempCodeRunnerFile
+/tempCodeRunnerFile
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
