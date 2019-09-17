@@ -186,3 +186,30 @@ def main():
 if __name__ == "__main__":
     print(__name__)
     main()
+    
+    import xlwings as xw
+import os
+import pandas as pd
+from icecream import ic
+
+
+wb = xw.Book()
+sht = wb.sheets["Sheet1"]
+
+date = ("8/21/2019", "8/22/2019")
+description = ("Store 1", "Store 2")
+cat = ("Food", "Refund")
+amount = ("-$20.12", "$403.11")
+
+data = list(zip(date, description, cat, amount))
+labels = ['Date', 'Description', 'Category','Amount']
+df = pd.DataFrame(data, columns=labels, index=False)
+# df = pd.DataFrame=(data)
+# ic(df)
+
+sht.range('A1').value = df
+sht.range('A1').options(pd.DataFrame, expand='table').value
+
+wb.save()
+# wb.close()
+
