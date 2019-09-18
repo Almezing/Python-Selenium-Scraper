@@ -187,29 +187,42 @@ if __name__ == "__main__":
     print(__name__)
     main()
     
-    import xlwings as xw
+import xlwings as xw
 import os
 import pandas as pd
 from icecream import ic
 
+# wb = xw.Book()
+# sht = wb.sheets["Sheet1"]
 
-wb = xw.Book()
-sht = wb.sheets["Sheet1"]
+data_dump =[]
 
 date = ("8/21/2019", "8/22/2019")
 description = ("Store 1", "Store 2")
 cat = ("Food", "Refund")
 amount = ("-$20.12", "$403.11")
 
-data = list(zip(date, description, cat, amount))
-labels = ['Date', 'Description', 'Category','Amount']
-df = pd.DataFrame(data, columns=labels, index=False)
-# df = pd.DataFrame=(data)
+date2 = ("9/21/2019", "9/22/2019")
+description2 = ("Store 69", "Noice 2")
+cat2 = ("Oh noes", "Woops")
+amount2 = ("$20.12", "-$403.11")
+
+temp1 = zip(date, description, cat, amount)
+temp2 = zip(date2, description2, cat2, amount2)
+labels = ["Date", "Description", "Category", "Amount"]
+
+data_dump.append(temp1)
+data_dump.append(temp2)
+
+ic(temp1)
+ic(temp2)
+ic(data_dump)
+# ic(data_dump)
+# df = pd.DataFrame(data_dump, columns=labels, index=False)
 # ic(df)
 
-sht.range('A1').value = df
-sht.range('A1').options(pd.DataFrame, expand='table').value
+# sht.range("A1").value = df
+# sht.range("A1").options(pd.DataFrame, expand="table").value
 
-wb.save()
+# wb.save()
 # wb.close()
-
