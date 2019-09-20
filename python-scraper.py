@@ -226,3 +226,5 @@ ic(data_dump)
 
 # wb.save()
 # wb.close()
+
+ with WebDriver(start_webdriver(chromedriver_path)) as wd:
