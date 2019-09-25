@@ -6,6 +6,8 @@ import fileinput as fs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+# https://www.statworx.com/de/blog/web-scraping-101-in-python-with-requests-beautifulsoup/
+
 # TODO data consolidate
 
 # TODO chrome set up
