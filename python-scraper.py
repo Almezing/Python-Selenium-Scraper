@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 # https://www.statworx.com/de/blog/web-scraping-101-in-python-with-requests-beautifulsoup/
-
+# https://kanoki.org/2019/09/25/building-a-web-app-using-python-and-mongodb/
 # TODO data consolidate
 
 # TODO chrome set up
