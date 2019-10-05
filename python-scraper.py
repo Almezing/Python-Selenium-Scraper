@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 
 # https://www.statworx.com/de/blog/web-scraping-101-in-python-with-requests-beautifulsoup/
 # https://kanoki.org/2019/09/25/building-a-web-app-using-python-and-mongodb/
-# TODO data consolidate
+
 
 # TODO chrome set up
 def setup_chrome():
@@ -30,8 +30,10 @@ def signon(wd, url_path):
         '//*[@id="ius-userid"]',
         '//*[@id="ius-password"]',
         '//*[@id="ius-sign-in-submit-btn"]',
+        r"""https://accounts.intuit.com/index.html?offering_id=Intuit.ifs.mint&namespace_id=50000026&redirect_url=https%3A%2F%2Fmint.intuit.com%2Foverview.event%3Futm_medium%3Ddirect%26cta%3Dnav_login_dropdown%26ivid%3D93b930db-f416-43a1-933f-fba8db6942ff"""
+        
     ]
-    wd.get(url_path["signon_path"])
+    wd.get(xpath_list[3])
     try:
         assert "Sign In" in wd.title
         with fs.input(file_path) as f:
@@ -44,14 +46,14 @@ def signon(wd, url_path):
         form_textfield = ""
         file_path = ""
     except:
-        print("Already signed in")
+        print("Already signed in or not on correct page")
         file_path = ""
         form_textfield = ""
         fs.close()
 
 
 # TODO sign off safely
-def sigoff(wd):
+def signoff(wd):
     time.sleep(10)
     try:
         xpath = '//*[@id="link-logout"]'
@@ -66,7 +68,7 @@ def sigoff(wd):
 
 
 # TODO download file
-def download_handler(wd, url_path):
+def download_cvs(wd, url_path):
     time.sleep(5)
     cwd = str(os.getcwd())
     local_download_path = os.path.expanduser("~") + "\\Downloads"
@@ -126,6 +128,7 @@ def scape_info(wd, url_path):
         print(last_page)
     except:
         print("Fail to get last page")
+        return None
     try:
         wd.get(url_path["first_page_path"])
         for page in range(1, int(last_page)):
@@ -160,134 +163,31 @@ def scape_info(wd, url_path):
                 f"Current page {page} returned {len(date), len(description), len(cat), len(amount)} Next page {next_page.text}"
             )
             next_page.click()
-
             time.sleep(2)
-
+            download_cvs()
+            return data_dump
     except:
         print("Fail to run for loop")
-        print(data_dump)
+        return None
 
+# TODO data consolidate
+def data_to_xl(data):
+    print(data)
 
 def main():
     url_path = {
-        "signon_path": "https://accounts.intuit.com/index.html?offering_id=Intuit.ifs.mint&namespace_id=50000026&redirect_url=https%3A%2F%2Fmint.intuit.com%2Foverview.event%3Futm_medium%3Ddirect%26cta%3Dnav_login_dropdown",
         "first_page_path": "https://mint.intuit.com/transaction.event#location:%7B%22accountId%22%3A0%2C%22offset%22%3A0%2C%22typeSort%22%3A8%7D",
         "download_path": "https://mint.intuit.com/transactionDownload.event?accountId=0&queryNew=&offset=0&comparableType=8",
     }
 
-    wd = setup_chrome()
-
-    signon(wd, url_path)
-    # download_handler(wd, url_path)
-    scape_info(wd, url_path)
-
-    time.sleep(10)
-    sigoff(wd)
+    with setup_chrome() as wd:
+        signon(wd, url_path)
+        download_cvs(wd, url_path)
+        data_to_xl(scape_info(wd, url_path))
+        time.sleep(10)
+        signoff(wd)
 
 
 if __name__ == "__main__":
     print(__name__)
     main()
-    
-import xlwings as xw
-import os
-import pandas as pd
-from icecream import ic
-
-# wb = xw.Book()
-# sht = wb.sheets["Sheet1"]
-
-data_dump =[]
-
-date = ("8/21/2019", "8/22/2019")
-description = ("Store 1", "Store 2")
-cat = ("Food", "Refund")
-amount = ("-$20.12", "$403.11")
-
-date2 = ("9/21/2019", "9/22/2019")
-description2 = ("Store 69", "Noice 2")
-cat2 = ("Oh noes", "Woops")
-amount2 = ("$20.12", "-$403.11")
-
-temp1 = zip(date, description, cat, amount)
-temp2 = zip(date2, description2, cat2, amount2)
-labels = ["Date", "Description", "Category", "Amount"]
-
-data_dump.append(temp1)
-data_dump.append(temp2)
-
-ic(temp1)
-ic(temp2)
-ic(data_dump)
-# ic(data_dump)
-# df = pd.DataFrame(data_dump, columns=labels, index=False)
-# ic(df)
-
-# sht.range("A1").value = df
-# sht.range("A1").options(pd.DataFrame, expand="table").value
-
-# wb.save()
-# wb.close()
-
- with WebDriver(start_webdriver(chromedriver_path)) as wd:
-        
-class WebDriver:
-    """
-      Open and closer for the webdriver used in selenium - context manager - allows a resource, in this case the driver, to be used and closed when needed
-      gets closed when outside of the with statement scope in main() \n
-      TL;DR
-      Allows the driver to be opened without having to remember to close it
-    """
-
-    # This is the constructor of the class
-    def __init__(self, driver):
-        self.driver = driver
-
-    # Is asscoiated with the With statement
-    def __enter__(self):
-        return self.driver
-
-    # Safely quits out of driver
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.driver.quit()
-def start_webdriver(chromedriver_path):
-    """
-        Start up the Chrome Web Driver for Selenium with some preset defaults.
-        Otherwise return `Failed`
-
-        :param chromedriver_path: the path to the chromedriver.exe
-            - can be relative or the full path
-
-        :return: the driver object or `Failed`
-    """
-    # Attempts to get the most up to date chromedriver if there is a newer version
-    # May fail if chromedriver is open and in use or if driver is not closed properly
-    chrome_update = cdu.update_chromedriver(
-        chromedriver_path.replace("chromedriver.exe", ""),
-        current_exe_path=chromedriver_path,
-    )
-    if chrome_update == "CDUSuccess":
-        print("Successful update for chromedriver")
-    else:
-        print("Failed to update chrome driver")
-        sys.exit()
-
-    # setting up chrome
-    CHROME_OPTIONS = webdriver.ChromeOptions()
-    # This fixes the issue with chrome complaining about Unpacked extensions being run at the start
-    # of each driver startup
-    CHROME_OPTIONS.add_experimental_option("useAutomationExtension", False)
-    try:
-        DRIVER = webdriver.Chrome(
-            executable_path=chromedriver_path, options=CHROME_OPTIONS
-        )
-    except WebDriverException as error:
-        thing_to_print = "Error {} | Can not start chrome - perhaps the chromedriver needs to be updated".format(
-            error
-        )
-        logging.error(thing_to_print)
-        return "Failed"
-
-    # # Completely Hide the browser after it starts
-    # DRIVER.set_window_position(-10000, 0)
-    return DRIVER
