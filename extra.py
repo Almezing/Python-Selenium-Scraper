@@ -1,43 +1,3 @@
-import xlwings as xw
-import os
-import pandas as pd
-from icecream import ic
-
-# wb = xw.Book()
-# sht = wb.sheets["Sheet1"]
-
-data_dump =[]
-
-date = ("8/21/2019", "8/22/2019")
-description = ("Store 1", "Store 2")
-cat = ("Food", "Refund")
-amount = ("-$20.12", "$403.11")
-
-date2 = ("9/21/2019", "9/22/2019")
-description2 = ("Store 69", "Noice 2")
-cat2 = ("Oh noes", "Woops")
-amount2 = ("$20.12", "-$403.11")
-
-temp1 = zip(date, description, cat, amount)
-temp2 = zip(date2, description2, cat2, amount2)
-labels = ["Date", "Description", "Category", "Amount"]
-
-data_dump.append(temp1)
-data_dump.append(temp2)
-
-ic(temp1)
-ic(temp2)
-ic(data_dump)
-# ic(data_dump)
-# df = pd.DataFrame(data_dump, columns=labels, index=False)
-# ic(df)
-
-# sht.range("A1").value = df
-# sht.range("A1").options(pd.DataFrame, expand="table").value
-
-# wb.save()
-# wb.close()
-
 with WebDriver(start_webdriver(chromedriver_path)) as wd:
         
 class WebDriver:
@@ -59,6 +19,7 @@ class WebDriver:
     # Safely quits out of driver
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.driver.quit()
+
 def start_webdriver(chromedriver_path):
     """
         Start up the Chrome Web Driver for Selenium with some preset defaults.
