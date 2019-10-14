@@ -1,5 +1,5 @@
 #black formattor
-#
+# https://pyinstaller.readthedocs.io/en/stable/spec-files.html#adding-files-to-the-bundle
 
 import time
 import os
