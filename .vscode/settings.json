@@ -2,6 +2,6 @@
     "python.formatting.provider": "black",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.linting.pep8Enabled": false,
+    "python.linting.pycodestyleEnabled": false,
     "python.pythonPath": "C:\\Users\\Almezing\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe"
 }

@@ -5,6 +5,7 @@ from icecream import ic
 import pickle
 import itertools
 import time
+import datetime
 import xlsxwriter
 
 zip_dump = []
@@ -35,6 +36,21 @@ file_path = str(os.getcwd()) + r"\x\dump"
 with open(file_path, "rb") as f:
     data = pickle.load(f)
 
+
+def clean_data(data=None):
+    clean_data = []
+    try:
+        for row in data:
+            clean_data.append(row[3])
+    # ic(clean_data)
+    # print(clean_data)
+        return clean_data
+    except:
+        print("rip")
+        return None
+
+data = clean_data(data)
+
 # print(temp1)
 # ic(temp1)
 # ic(temp2)
@@ -51,47 +67,69 @@ with open(file_path, "rb") as f:
 
 
 
-start = time.time()
-# start = time.perf_counter_ns()
-pretty_start = time.strftime("%H:%M:%S", time.gmtime(start))
+# start = time.time()
+# # start = time.perf_counter_ns()
+# pretty_start = time.strftime("%H:%M:%S", time.gmtime(start))
 
 
-wb = xw.Book(str(os.getcwd()) + r"\x\template.xlsx")
-sht = wb.sheets["Sheet1"]
-#TODO xlwings version
-for page in range(0, len(data)):
-    df = pd.DataFrame(data[page])
-    df.columns = df.iloc[0]
-    df = df.reindex(df.index.drop(0)).reset_index(drop=True)
-    df.columns.name = None
-    df.index.name = None
-    row = page * 100 + 2
-    sht.range(f"A{row}").value = df
-sht.range("A1").value = labels
+wb1 = xw.Book(str(os.getcwd()) + r"\x\template.xlsx")
+sht1 = wb1.sheets["Sheet1"]
 
-#TODO lsxwriter version
-# writer = pd.ExcelWriter(cwd +"\\x\\Data.xlsx", engine='xlsxwriter')
-# for page in range(0,len(data)):
+wb2 = xw.Book(str(os.getcwd()) + r"\x\transaction.csv")
+sht2 = wb2.sheets[0]
+
+col_range = sht2.range('A1').expand()
+# last_row_int = int(str(col_range).split('$')[4].split('>')[0])
+
+amount_col = sht2[:,4:9]
+new_amount_col = sht2[:,5:10]
+# table = sht2.range(col_range).value
+table = sht2.range(amount_col).value
+sht2.range(amount_col).value = None
+sht2.range(new_amount_col).value = table
+
+# sht1.range('a1').value = table
+# sht1.range( sht1[1:,3] ).options(transpose=True).value = data
+# print(data[0])
+sht2.range(sht2[1:,4]).options(transpose=True).value = data
+sht2.range('E1').value = 'Signed Amount'
+# print(sht1.range('A1').value)
+
+print(len(data))
+# #TODO xlwings version
+# for page in range(0, len(data)):
 #     df = pd.DataFrame(data[page])
 #     df.columns = df.iloc[0]
 #     df = df.reindex(df.index.drop(0)).reset_index(drop=True)
 #     df.columns.name = None
 #     df.index.name = None
-#     row = page * 100 + 1
-#     df.to_excel(writer, sheet_name='Sheet1',startrow=row,index=False)
-# writer.save()
-# writer.close()
+#     row = page * 100 + 2
+#     sht1.range(f"A{row}").value = df
+# sht1.range("A1").value = labels
 
-p_elapse = time.time()
-# p_elapse = time.perf_counter_ns()
-elapse = p_elapse - start
-pretty_p_elapse = time.strftime("%H:%M:%S", time.gmtime(p_elapse))
-pretty_elapse = time.strftime("%H:%M:%S", time.gmtime(elapse))
-print(start, p_elapse, elapse)
-print(pretty_start, pretty_p_elapse, pretty_elapse)
-# print(elapse)
-# wb.save()
-# wb.close()
+# #TODO lsxwriter version
+# # writer = pd.ExcelWriter(cwd +"\\x\\Data.xlsx", engine='xlsxwriter')
+# # for page in range(0,len(data)):
+# #     df = pd.DataFrame(data[page])
+# #     df.columns = df.iloc[0]
+# #     df = df.reindex(df.index.drop(0)).reset_index(drop=True)
+# #     df.columns.name = None
+# #     df.index.name = None
+# #     row = page * 100 + 1
+# #     df.to_excel(writer, sheet_name='Sheet1',startrow=row,index=False)
+# # writer.save()
+# # writer.close()
+
+# p_elapse = time.time()
+# # p_elapse = time.perf_counter_ns()
+# elapse = p_elapse - start
+# pretty_p_elapse = time.strftime("%H:%M:%S", time.gmtime(p_elapse))
+# pretty_elapse = time.strftime("%H:%M:%S", time.gmtime(elapse))
+# print(start, p_elapse, elapse)
+# print(pretty_start, pretty_p_elapse, pretty_elapse)
+# # print(elapse)
+# # wb1.save()
+# # wb1.close()
 
 
 

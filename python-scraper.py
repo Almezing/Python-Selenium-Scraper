@@ -16,11 +16,16 @@ from selenium.webdriver.chrome.options import Options
 
 # TODO chrome set up
 def setup_chrome():
+    chromedriver_path = str(os.getcwd()) + r"\x\chromedriver.exe"
     options = Options()
     options.add_experimental_option(
         "prefs", {"download.prompt_for_download": False, "safebrowsing.enabled": True}
     )
-    driver = webdriver.Chrome(options=options)
+    options.add_argument("--disable-gpu")
+    # options.add_argument("--headless")
+
+    options.binary_location = str(os.getcwd()) + r"\x\Chromium-77\chrome.exe"
+    driver = webdriver.Chrome(options=options, executable_path=chromedriver_path)
     return driver
 
 
@@ -96,7 +101,7 @@ def download_handler(data=None):
             [file for file in os.listdir(local_download_path)],
             key=lambda x: os.path.getctime(os.path.join(local_download_path, x)),
         )
-        print(download_file)
+        print(f"File downloaded {download_file} ")
         if "transaction" not in download_file:
             print("Downloaded file not found or moved")
         else:
@@ -171,13 +176,15 @@ def scape_info(wd, url_path):
         title = []
         cat = []
         money = []
-        for page in range(1, int(last_page)):
+        for page in range(1, int(last_page) + 1):
+            # time.sleep(1)
             table = wd.find_elements_by_xpath(xpath_list[1])
             for row in table:
                 date = [
                     td.text
                     for td in row.find_elements_by_xpath(".//td[@class='date'][1]")
                 ]
+
                 title = [
                     span.text for span in row.find_elements_by_xpath(".//td[@title]")
                 ]
@@ -195,9 +202,14 @@ def scape_info(wd, url_path):
             print(
                 f"Current page {page} returned {len(date), len(title), len(cat), len(money)}. Elapse Time {elapse}s"
             )
-            next_page = wd.find_element_by_xpath(xpath_list[3])
-            next_page.click()
-            time.sleep(3)
+            try:
+                next_page = wd.find_element_by_xpath(xpath_list[3])
+                next_page.click()
+                # time.sleep(3)
+            except:
+                pass
+        data_dump = clean_data(data_dump)
+        print(data_dump[0])
         download_handler(data_dump)
         print(f"Total Time {elapse}")
         return data_dump
@@ -210,20 +222,57 @@ def scape_info(wd, url_path):
 
 # TODO data consolidate
 def data_to_xl(data=None):
-    wb = xw.Book(str(os.getcwd()) + r"\x\template.xlsx")
-    sht = wb.sheets["Sheet1"]
-    labels = ["Index", "Date", "Description", "Category", "Amount"]
+    try:
+        
+        wb2 = xw.Book(str(os.getcwd()) + r"\x\transaction.csv")
+        sht2 = wb2.sheets[0]
+        wb1 = xw.Book(str(os.getcwd()) + r"\x\template.xlsx")
+        sht1 = wb1.sheets[0]
+        # labels = ["Index", "Date", "Description", "Category", "Amount"]
+        # for page in range(0, len(data)):
+        #     df = pd.DataFrame(data[page])
+        #     df.columns = df.iloc[0]
+        #     df = df.reindex(df.index.drop(0)).reset_index(drop=True)
+        #     df.columns.name = None
+        #     df.index.name = None
+        #     row = page * 100 + 2
+        #     sht1.range(f"A{row}").value = df
+        # sht1.range("A1").value = labels
 
-    for page in range(0, len(data)):
-        df = pd.DataFrame(data[page])
-        df.columns = df.iloc[0]
-        df = df.reindex(df.index.drop(0)).reset_index(drop=True)
-        df.columns.name = None
-        df.index.name = None
-        row = page * 100 + 2
-        sht.range(f"A{row}").value = df
+        # get data from csv
+        table_total_range = sht2.range("A1").expand()
+        table_sht2 = sht2.range(table_total_range).value
+        table_section_range1 = sht2[:, 0:4]
+        table_section_range2 = sht2[:, 5:9]
 
-    sht.range("A1").value = labels
+        table_section_1 = sht2.range(table_section_range1).value
+        table_section_2 = sht2.range(table_section_range2).value
+
+
+        # write data
+        new_locaiton_range = sht1[:, 5:10]
+        insert_range = sht1[1:,4]
+        sht1.range('A1').value = table_section_1
+        sht1.range(insert_range).options(transpose=True).value = data
+        sht1.range(new_locaiton_range).value = table_section_2
+        sht1.range('e1').value = 'Signed Amount'
+
+    except:
+        print("Data is None")
+        pass
+
+
+def clean_data(data=None):
+    clean_data = []
+    try:
+        for page in data:
+            for row in page:
+                # clean_data.append(row)
+                clean_data.append(row[3])
+        return clean_data
+    except:
+        print("Data not cleaned")
+        return None
 
 
 def main():
