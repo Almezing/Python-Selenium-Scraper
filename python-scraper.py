@@ -1,9 +1,9 @@
-#black formattor
+# black formattor
 # https://pyinstaller.readthedocs.io/en/stable/spec-files.html#adding-files-to-the-bundle
-#os.path.dirname(os.path.abspath(__file__))
+# os.path.dirname(os.path.abspath(__file__))
 
 import time
-import os
+import os,sys
 import pickle
 import xlwings as xw
 import pandas as pd
@@ -34,7 +34,7 @@ def setup_chrome():
 
 
 # TODO sign on safely
-def signon(wd, url_path):
+def signon(wd):
     time.sleep(3)
     form_textfield = ""
     action = ""
@@ -85,16 +85,16 @@ def signoff(wd):
     except:
         print("Not logged in")
     wd.quit()
+    quit()
 
 
-def csv_download(wd=None, url_path=None):
-    wd.get(url_path["download_path"])
+def csv_download(wd=None):
+    wd.get("https://mint.intuit.com/transactionDownload.event?accountId=0&queryNew=&offset=0&comparableType=8")
     print("Downloading")
     download_handler()
 
-
 # TODO download file
-def download_handler(data=None):
+def download_handler(data=None, k=None):
     time.sleep(2)
     cwd = str(os.getcwd())
     local_download_path = os.path.expanduser("~") + "\\Downloads"
@@ -124,110 +124,172 @@ def download_handler(data=None):
         print("Fail to download")
     if data != None:
         try:
-            dump_file = f"{cwd}\\x\\dump"
+            dump_file = f"{cwd}\\x\\{k}"
             with open(dump_file, "wb") as f:
                 pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
-            print("Object saved")
+            print(f"Object saved: \t '{k}'")
         except:
-            print("Failed to save object")
+            print(f"Failed to save object: \t '{k}''")
     else:
         print("Data file skipped")
 
 
 # TODO scraper
-def scape_info(wd, url_path):
-    time.sleep(7)
-    xpath_list = [
-        '//*[@id="account-table-all"]/tr[2]/*',
-        '//*[@id="transaction-list-body"]',
-        "/html/body/div[3]/div[5]/div/div[1]/div[7]/div[2]/div[7]/div[2]/div/table/tbody/tr/td[2]/div[3]/ul/li[last()]",
-        "/html/body/div[3]/div[5]/div/div[1]/div[7]/div[2]/div[7]/div[2]/div/table/tbody/tr/td[2]/div[3]/ul/li[@class='next wide']",
-    ]
-    header = []
-    data_dump = []
-    wd.get(url_path["first_page_path"])
-    time.sleep(5)
+def gather_accounts(wd):
+    wd.get("https://mint.intuit.com/transaction.event")
+    account_text = []
+    account_link = []
+    account_text_link = {}
+    time.sleep(4)
     try:
-        for item in wd.find_elements_by_xpath(xpath_list[0]):
-            header.append(item.text)
-        print(header)
-    except:
-        print("Fail to get header")
-    try:
-        xpath = '//*[@id="product-view-root"]/div[7]/div[3]/a'
-        time.sleep(3)
-        wd.find_element_by_xpath(xpath).click()
-        xpath = '//*[@id="body-mint"]/div[8]/div[2]/div'
-        time.sleep(3)
-        wd.find_element_by_xpath(xpath).click()
-    except:
-        print("Button missing")
-    try:
-        last_page = wd.find_element_by_xpath(xpath_list[2])
-        print(last_page.text)
-        last_page.click()
-        time.sleep(2)
-        last_page = wd.find_element_by_xpath(xpath_list[2]).text
-        print(last_page)
-    except:
-        print("Fail to get last page")
-        signoff(wd)
-        return None
-    try:
-        wd.get(url_path["first_page_path"])
-        start = time.time()
-        date = []
-        title = []
-        cat = []
-        money = []
-        for page in range(1, int(last_page) + 1):
-            # time.sleep(1)
-            table = wd.find_elements_by_xpath(xpath_list[1])
-            for row in table:
-                date = [
-                    td.text
-                    for td in row.find_elements_by_xpath(".//td[@class='date'][1]")
-                ]
+        for listitem in wd.find_elements_by_xpath(
+            r"""/html/body/div[3]/div[5]/div/div[1]/div[7]/div[2]/div[7]/div[2]/div/table/tbody/tr/td[1]/div/div/ul/li[position()<3]"""
+        ):
+            temp_type = []
+            temp_account = []
+            temp_account_info = []
 
-                title = [
-                    span.text for span in row.find_elements_by_xpath(".//td[@title]")
+            temp_account = [
+                item.text for item in listitem.find_elements_by_xpath(".//ul/li/a")
+            ]
+            temp_account_info = [
+                item.text for item in listitem.find_elements_by_xpath(".//ul/li/small")
+            ]
+            if len(temp_account_info) != 0:
+                temp_type = list(zip(temp_account, temp_account_info))
+                for item in temp_type:
+                    a, b = item
+                    account_text.append(a + " " + b)
+                    # print(account_text[-1:])
+            else:
+                account_text.extend(temp_account)
+            account_link.extend(
+                [
+                    item.get_attribute("href")
+                    for item in listitem.find_elements_by_xpath(".//ul/li/a")
                 ]
-                cat = [
-                    td.text
-                    for td in row.find_elements_by_xpath(".//td[@class='cat'][1]")
-                ]
-                money = [
-                    td.text
-                    for td in row.find_elements_by_xpath(".//td[@class='money'][1]")
-                ]
-            temp = itertools.zip_longest(date, title, cat, money)
-            data_dump.append(temp)
-            elapse = time.strftime("%H:%M:%S", time.gmtime(time.time() - start))
-            print(
-                f"Current page {page} returned {len(date), len(title), len(cat), len(money)}. Elapse Time {elapse}s"
             )
-            try:
-                next_page = wd.find_element_by_xpath(xpath_list[3])
-                next_page.click()
-                # time.sleep(3)
-            except:
-                pass
-        data_dump = clean_data(data_dump)
-        print(data_dump[0])
-        download_handler(data_dump)
-        print(f"Total Time {elapse}")
-        return data_dump
+            account_text_link = {key: value for key,value in zip(account_text,account_link) }
+    except:
+        print("Fail to get accounts and links")
+        return {}
 
+    print("Have accounts and links")
+    return account_text_link
+
+#TODO aggergate data
+def aggergate_data(wd=None):
+    all_header = {}
+    all_data = {}
+    # wd.get("https://mint.intuit.com/transaction.event")
+    # time.sleep(3)
+    accounts_info = gather_accounts(wd)
+    try:
+        if len(accounts_info) != 0:
+            for k,v in accounts_info.items():
+                temp = {}
+                wd.get(v)
+                all_header[k] = get_header(wd)
+                temp[k] = scrap_info(wd)
+                all_data.update(temp)
+
+                download_handler(temp,k)
     except:
         print("Fail to run for loop")
         signoff(wd)
         return None
 
+    print("Done aggergate")
+    return all_data
 
-# TODO data consolidate
+#TODO
+def get_header(wd=None):
+    header = []
+    time.sleep(2)
+    try:
+        table = wd.find_elements_by_xpath('/html/body/div[3]/div[5]/div/div[1]/div[7]/div[2]/div[7]/div[2]/div/table/tbody/tr/td[2]/div[3]/div[5]/div[2]/table/tbody/tr/*[position()<3]')
+        for item in table:
+            if len(item.text) != 0:
+                header.append(item.text)
+        # print(header)
+        return header
+    except:
+        print("Fail to get header")
+        return None
+
+#TODO separate scrape
+def scrap_info(wd=None):
+    data_dump = []
+    xpath_list = [
+    '//*[@id="transaction-list-body"]',
+    "/html/body/div[3]/div[5]/div/div[1]/div[7]/div[2]/div[7]/div[2]/div/table/tbody/tr/td[2]/div[3]/ul/li[last()]",
+    "/html/body/div[3]/div[5]/div/div[1]/div[7]/div[2]/div[7]/div[2]/div/table/tbody/tr/td[2]/div[3]/ul/li[@class='next wide']",
+    ]
+    try:
+        last_page = wd.find_element_by_xpath(xpath_list[1])
+        if last_page.text.lower() == 'last':
+            last_page.click()
+            time.sleep(2)
+        last_page = wd.find_element_by_xpath(xpath_list[1]).text
+        print(f"{last_page} Pages")
+    except:
+        print("Fail to get last page")
+        signoff(wd)
+        return None
+    
+    start = time.time()
+    date = []
+    title = []
+    cat = []
+    money = []
+    if last_page!="NEXT":
+        pages = last_page
+    else:
+        pages = int(wd.find_element_by_xpath("/html/body/div[3]/div[5]/div/div[1]/div[7]/div[2]/div[7]/div[2]/div/table/tbody/tr/td[2]/div[3]/ul/li[last()-1]").text)
+        print(pages)
+    for page in range(1, int(last_page) + 1):
+        table = wd.find_elements_by_xpath(xpath_list[0])
+        for row in table:
+            date = [
+                td.text
+                for td 
+                in row.find_elements_by_xpath(".//td[@class='date'][1]")
+            ]
+
+            title = [
+                td.text 
+                for td 
+                in row.find_elements_by_xpath(".//td[@title]")
+            ]
+            cat = [
+                td.text
+                for td 
+                in row.find_elements_by_xpath(".//td[@class='cat'][1]")
+            ]
+            money = [
+                td.text
+                for td 
+                in row.find_elements_by_xpath(".//td[@class='money'][1]")
+            ]
+        temp = itertools.zip_longest(date, title, cat, money)
+        data_dump.extend(temp)
+        elapse = time.strftime("%H:%M:%S", time.gmtime(time.time() - start))
+        print(
+            f"Current page {page} returned {len(date), len(title), len(cat), len(money)}. Elapse Time {elapse}s"
+        )
+        try:
+            next_page = wd.find_element_by_xpath(xpath_list[2])
+            next_page.click()
+        except:
+            pass
+    # data_dump = clean_data(data_dump)
+    # print(data_dump[0])
+    print(f"Total Time {elapse}")
+    return data_dump
+
+# TODO data consolidate to xl
 def data_to_xl(data=None):
     try:
-        
         wb2 = xw.Book(str(os.getcwd()) + r"\x\transaction.csv")
         sht2 = wb2.sheets[0]
         wb1 = xw.Book(str(os.getcwd()) + r"\x\template.xlsx")
@@ -252,14 +314,13 @@ def data_to_xl(data=None):
         table_section_1 = sht2.range(table_section_range1).value
         table_section_2 = sht2.range(table_section_range2).value
 
-
         # write data
         new_locaiton_range = sht1[:, 5:10]
-        insert_range = sht1[1:,4]
-        sht1.range('A1').value = table_section_1
+        insert_range = sht1[1:, 4]
+        sht1.range("A1").value = table_section_1
         sht1.range(insert_range).options(transpose=True).value = data
         sht1.range(new_locaiton_range).value = table_section_2
-        sht1.range('e1').value = 'Signed Amount'
+        sht1.range("e1").value = "Signed Amount"
 
     except:
         print("Data is None")
@@ -280,15 +341,10 @@ def clean_data(data=None):
 
 
 def main():
-    url_path = {
-        "first_page_path": "https://mint.intuit.com/transaction.event#location:%7B%22accountId%22%3A0%2C%22offset%22%3A0%2C%22typeSort%22%3A8%7D",
-        "download_path": "https://mint.intuit.com/transactionDownload.event?accountId=0&queryNew=&offset=0&comparableType=8",
-    }
-
     with setup_chrome() as wd:
-        signon(wd, url_path)
-        csv_download(wd, url_path)
-        data = scape_info(wd, url_path)
+        signon(wd)
+        # csv_download(wd, url_path)
+        data = aggergate_data(wd)
         signoff(wd)
 
         data_to_xl(data)
@@ -297,4 +353,3 @@ def main():
 if __name__ == "__main__":
     print(__name__)
     main()
-    # data_to_xl()

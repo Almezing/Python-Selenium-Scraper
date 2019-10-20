@@ -49,7 +49,7 @@ def clean_data(data=None):
         print("rip")
         return None
 
-data = clean_data(data)
+# data = clean_data(data)
 
 # print(temp1)
 # ic(temp1)
@@ -72,28 +72,32 @@ data = clean_data(data)
 # pretty_start = time.strftime("%H:%M:%S", time.gmtime(start))
 
 
-wb1 = xw.Book(str(os.getcwd()) + r"\x\template.xlsx")
-sht1 = wb1.sheets["Sheet1"]
-
 wb2 = xw.Book(str(os.getcwd()) + r"\x\transaction.csv")
 sht2 = wb2.sheets[0]
+wb1 = xw.Book(str(os.getcwd()) + r"\x\template.xlsx")
+sht1 = wb1.sheets[0]
 
-col_range = sht2.range('A1').expand()
-# last_row_int = int(str(col_range).split('$')[4].split('>')[0])
+# table_total_range = sht2.range("A1").expand()
+# table_sht2 = sht2.range(table_total_range).value
+# table_section_range1 = sht2[:, 0:4]
+# table_section_range2 = sht2[:, 5:9]
 
-amount_col = sht2[:,4:9]
-new_amount_col = sht2[:,5:10]
-# table = sht2.range(col_range).value
-table = sht2.range(amount_col).value
-sht2.range(amount_col).value = None
-sht2.range(new_amount_col).value = table
+# table_section_1 = sht2.range(table_section_range1).value
+# table_section_2 = sht2.range(table_section_range2).value
 
-# sht1.range('a1').value = table
-# sht1.range( sht1[1:,3] ).options(transpose=True).value = data
-# print(data[0])
-sht2.range(sht2[1:,4]).options(transpose=True).value = data
-sht2.range('E1').value = 'Signed Amount'
-# print(sht1.range('A1').value)
+
+# write data
+# new_locaiton_range = sht1[:, 5:10]
+# insert_range = sht1[1:,4]
+# sht1.range('A1').value = table_section_1
+# sht1.range(insert_range).options(transpose=True).value = data
+# sht1.range(new_locaiton_range).value = table_section_2
+# sht1.range('e1').value = 'Signed Amount'
+
+sht1.range('a1').options(transpose=True).value = data
+
+
+
 
 print(len(data))
 # #TODO xlwings version
