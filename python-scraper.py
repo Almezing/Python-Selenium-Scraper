@@ -1,6 +1,7 @@
 # black formattor
 # https://pyinstaller.readthedocs.io/en/stable/spec-files.html#adding-files-to-the-bundle
 # os.path.dirname(os.path.abspath(__file__))
+# https://pyinstaller.readthedocs.io/en/stable/usage.html
 
 import time
 import os,sys
