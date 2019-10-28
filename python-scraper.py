@@ -19,7 +19,7 @@ from selenium.webdriver.chrome.options import Options
 # https://kanoki.org/2019/09/25/building-a-web-app-using-python-and-mongodb/
 # https://docs.xlwings.org/en/stable/quickstart.html
 
-
+start_time = time.time()
 # TODO chrome set up
 def setup_chrome():
     cwd = str(os.getcwd())
@@ -87,7 +87,7 @@ def signoff(wd):
     except:
         print("Not logged in")
     wd.quit()
-    quit()
+    # quit()
 
 
 def csv_download(wd=None):
@@ -95,11 +95,11 @@ def csv_download(wd=None):
         "https://mint.intuit.com/transactionDownload.event?accountId=0&queryNew=&offset=0&comparableType=8"
     )
     print("Downloading")
-    download_handler()
+    file_handler()
 
 
 # TODO download file
-def download_handler(data=None, account_name=None):
+def file_handler(data=None, account_name=None):
     time.sleep(2)
     cwd = str(os.getcwd())
     local_download_path = os.path.expanduser("~") + "\\Downloads"
@@ -213,7 +213,7 @@ def aggergate_data(wd=None):
                 temp[account_name] = scrap_info(wd, account_url)
                 all_data.update(temp)
 
-                download_handler(temp, account_name)
+                file_handler(temp, account_name)
     except:
         print("Fail to run for loop")
         signoff(wd)
@@ -319,7 +319,7 @@ def scrap_info(wd=None, url=None):
         title = []
         cat = []
         money = []
-        pages = pages+1
+        pages = pages + 1
         try:
             for page in range(1, pages):
                 table = wd.find_elements_by_xpath(xpath_list[0])
@@ -328,8 +328,9 @@ def scrap_info(wd=None, url=None):
                         td.text
                         for td in row.find_elements_by_xpath(".//td[@class='date'][1]")
                     ]
-
-                    title = [td.text for td in row.find_elements_by_xpath(".//td[@title]")]
+                    title = [
+                        td.text for td in row.find_elements_by_xpath(".//td[@title]")
+                    ]
                     cat = [
                         td.text
                         for td in row.find_elements_by_xpath(".//td[@class='cat'][1]")
@@ -398,6 +399,12 @@ def data_to_xl(data=None):
         print("Data is None")
         pass
 
+    try:
+        wb1 = xw.Book(str(os.getcwd()) + r"\x\template.xlsx")
+        sht1 = wb1.sheets[0]
+    except:
+        pass
+
 
 def clean_data(data=None):
     clean_data = []
@@ -411,12 +418,18 @@ def clean_data(data=None):
         print("Data not cleaned")
         return None
 
-
 def main():
     with setup_chrome() as wd:
         signon(wd)
         # csv_download(wd, url_path)
         data = aggergate_data(wd)
+
+        try:
+            pickle.dump(data, open(dump_file, "wb"))
+            print(f"Object saved: \t data")
+        except:
+            print(f"Failed to save object: \t data")
+
         signoff(wd)
 
         # data_to_xl(data)
@@ -425,3 +438,4 @@ def main():
 if __name__ == "__main__":
     print(__name__)
     main()
+print(time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time)))
