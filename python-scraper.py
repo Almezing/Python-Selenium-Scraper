@@ -3,6 +3,9 @@
 # os.path.dirname(os.path.abspath(__file__))
 # https://pyinstaller.readthedocs.io/en/stable/usage.html
 # https://brice-v.github.io/docs/BriceVadnaisResume.pdf
+# https://www.reddit.com/r/raspberry_pi/comments/dmmdb0/raspberry_pi_nas_setup_build_inside_old_lenovo/
+# https://www.reddit.com/r/raspberry_pi/comments/do9h7z/setup_my_home_network_pihole_i_know_the_picture/
+# https://blog.cryptoaustralia.org.au/instructions-for-setting-up-pi-hole/
 
 import time
 import os, sys, re
