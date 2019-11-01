@@ -7,6 +7,7 @@
 # https://www.reddit.com/r/raspberry_pi/comments/do9h7z/setup_my_home_network_pihole_i_know_the_picture/
 # https://blog.cryptoaustralia.org.au/instructions-for-setting-up-pi-hole/
 # https://github.com/RIOT-OS/RIOT/releases/tag/2019.10
+# http://dlavigne.dyndns.org:8081/matops/files/xfer/SQL/
 
 import time
 import os, sys, re
