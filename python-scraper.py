@@ -1,4 +1,4 @@
-# black formattor
+
 # https://pyinstaller.readthedocs.io/en/stable/spec-files.html#adding-files-to-the-bundle
 # os.path.dirname(os.path.abspath(__file__))
 # https://pyinstaller.readthedocs.io/en/stable/usage.html
@@ -8,6 +8,10 @@
 # https://blog.cryptoaustralia.org.au/instructions-for-setting-up-pi-hole/
 # https://github.com/RIOT-OS/RIOT/releases/tag/2019.10
 # http://dlavigne.dyndns.org:8081/matops/files/xfer/SQL/
+# https://www.statworx.com/de/blog/web-scraping-101-in-python-with-requests-beautifulsoup/
+# https://kanoki.org/2019/09/25/building-a-web-app-using-python-and-mongodb/
+# https://docs.xlwings.org/en/stable/quickstart.html
+
 
 import time
 import os, sys, re
@@ -20,9 +24,7 @@ from icecream import ic
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-# https://www.statworx.com/de/blog/web-scraping-101-in-python-with-requests-beautifulsoup/
-# https://kanoki.org/2019/09/25/building-a-web-app-using-python-and-mongodb/
-# https://docs.xlwings.org/en/stable/quickstart.html
+
 
 start_time = time.time()
 # TODO chrome set up
@@ -345,18 +347,18 @@ def scrap_info(wd=None, url=None):
                         for td in row.find_elements_by_xpath(".//td[@class='money'][1]")
                     ]
                 temp = itertools.zip_longest(date, title, cat, money)
+                temp = [item for item in temp if item[3] != None]
+                # ic(temp)
                 data_dump.extend(temp)
                 elapse = time.strftime("%H:%M:%S", time.gmtime(time.time() - start))
                 print(
-                    f"Current page {page} returned {len(date), len(title), len(cat), len(money)}. Elapse Time {elapse}s"
+                    f"Current page {page} returned {len(temp)}. Elapse Time {elapse}s"
                 )
                 try:
                     next_page = wd.find_element_by_xpath(xpath_list[2])
                     next_page.click()
                 except:
                     pass
-            # data_dump = clean_data(data_dump)
-            # print(data_dump[0])
             print(f"Total Time {elapse}")
             return data_dump
         except:
@@ -424,21 +426,20 @@ def clean_data(data=None):
         return None
 
 def main():
+    cwd = str(os.getcwd())
     with setup_chrome() as wd:
         signon(wd)
         # csv_download(wd, url_path)
         data = aggergate_data(wd)
 
         try:
+            dump_file = f"{cwd}\\x\\dumpfolder\\alldump"
             pickle.dump(data, open(dump_file, "wb"))
             print(f"Object saved: \t data")
         except:
             print(f"Failed to save object: \t data")
 
         signoff(wd)
-
-        # data_to_xl(data)
-
 
 if __name__ == "__main__":
     print(__name__)
