@@ -12,6 +12,7 @@
 # https://kanoki.org/2019/09/25/building-a-web-app-using-python-and-mongodb/
 # https://docs.xlwings.org/en/stable/quickstart.html
 # https://www.tutorialspoint.com/python_design_patterns/python_design_patterns_gist.htm
+# https://www.yourprimer.com/faq.html
 
 import time
 import os, sys, re
