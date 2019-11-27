@@ -24,7 +24,9 @@ from icecream import ic
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-
+#TODO unique id for each transcation by concating the entire row
+#compare the 10 most recent transcations since last pull
+#so that way the tables can be updated wihtout dupes
 
 start_time = time.time()
 # TODO chrome set up
@@ -277,7 +279,7 @@ def get_last_page(wd=None, xpath_list=None):
             except:
                 pass
         else:
-            last_page = wd.find_element_by_xpath(xpath_list[2])
+            last_page = wd.find_element_by_xpath(xpa th_list[2])
             last_page_text = last_page.text
 
         print(f"{last_page_text} Pages")
@@ -348,12 +350,12 @@ def scrap_info(wd=None, url=None):
                     ]
                 temp = itertools.zip_longest(date, title, cat, money)
                 temp = [item for item in temp if item[3] != None]
-                # ic(temp)
+                ic(len(temp))
                 data_dump.extend(temp)
                 elapse = time.strftime("%H:%M:%S", time.gmtime(time.time() - start))
-                print(
-                    f"Current page {page} returned {len(temp)}. Elapse Time {elapse}s"
-                )
+                # print(
+                #     f"Current page {page} returned {len(temp)}. Elapse Time {elapse}s"
+                # )
                 try:
                     next_page = wd.find_element_by_xpath(xpath_list[2])
                     next_page.click()
