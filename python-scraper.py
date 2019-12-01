@@ -280,7 +280,7 @@ def get_last_page(wd=None, xpath_list=None):
             except:
                 pass
         else:
-            last_page = wd.find_element_by_xpath(xpa th_list[2])
+            last_page = wd.find_element_by_xpath(xpath_list[2])
             last_page_text = last_page.text
 
         print(f"{last_page_text} Pages")
