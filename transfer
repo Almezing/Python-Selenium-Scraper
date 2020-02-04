@@ -21,3 +21,28 @@ https://duckduckgo.com/?q=scrum+resources&kp=1&t=brave&ia=web
 https://www.tutorialspoint.com/data_structures_algorithms/data_structure_environment.htm
 
 https://www.codewars.com/kata/5e16ffb7297fe00001114824/train/python
+
+
+def top3(products, amounts, prices):
+    group = {}
+    index = 0
+    highestValue = 0
+    # for index in range(0,3):
+    #     group[products[index]] = amounts[index] * prices[index]
+    
+    # for key in group.keys()
+    #     if group[key] > highestValue:
+    #         highestProduct = group[key]
+    
+    return True
+
+
+temp1 = (top3(products=["Computer", "Cell Phones", "Vacuum Cleaner"], amounts=[3,24,8], prices=[199,299,399]))
+
+temp2 = (top3(["Cell Phones", "Vacuum Cleaner", "Computer", "Autos", "Gold", "Fishing Rods", "Lego", " Speakers"], [5, 25, 2, 7, 10, 3, 2, 24], [51, 225, 22, 47, 510, 83, 82, 124]), ['Vacuum Cleaner', 'Gold', ' Speakers'])
+
+temp3 =(top3(["Cell Phones", "Vacuum Cleaner", "Computer", "Autos", "Gold", "Fishing Rods", "Lego", " Speakers"], [0, 12, 24, 17, 19, 23, 120, 8], [9, 24, 29, 31, 51, 8, 120, 14]), ['Lego', 'Gold', 'Computer'])
+
+print(temp1)
+# print(temp2)
+# print(temp3)
