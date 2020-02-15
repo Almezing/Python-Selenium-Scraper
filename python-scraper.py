@@ -1,21 +1,3 @@
-
-# https://pyinstaller.readthedocs.io/en/stable/spec-files.html#adding-files-to-the-bundle
-# os.path.dirname(os.path.abspath(__file__))
-# https://pyinstaller.readthedocs.io/en/stable/usage.html
-# https://brice-v.github.io/docs/BriceVadnaisResume.pdf
-# https://www.reddit.com/r/raspberry_pi/comments/dmmdb0/raspberry_pi_nas_setup_build_inside_old_lenovo/
-# https://www.reddit.com/r/raspberry_pi/comments/do9h7z/setup_my_home_network_pihole_i_know_the_picture/
-# https://blog.cryptoaustralia.org.au/instructions-for-setting-up-pi-hole/
-# https://github.com/RIOT-OS/RIOT/releases/tag/2019.10
-# http://dlavigne.dyndns.org:8081/matops/files/xfer/SQL/
-# https://www.statworx.com/de/blog/web-scraping-101-in-python-with-requests-beautifulsoup/
-# https://kanoki.org/2019/09/25/building-a-web-app-using-python-and-mongodb/
-# https://docs.xlwings.org/en/stable/quickstart.html
-# https://www.tutorialspoint.com/python_design_patterns/python_design_patterns_gist.htm
-# https://www.yourprimer.com/faq.html
-# https://writing.stackexchange.com/questions/49145/evil-plans-how-do-you-come-up-with-interesting-ones
-# http://programmerblog.net/nodejs-file-upload-tutorial/
-
 import time
 import os, sys, re
 import pickle
