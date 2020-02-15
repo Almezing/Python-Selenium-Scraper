@@ -1,0 +1,64 @@
+
+# https://pyinstaller.readthedocs.io/en/stable/spec-files.html#adding-files-to-the-bundle
+# os.path.dirname(os.path.abspath(__file__))
+# https://pyinstaller.readthedocs.io/en/stable/usage.html
+# https://brice-v.github.io/docs/BriceVadnaisResume.pdf
+# https://www.reddit.com/r/raspberry_pi/comments/dmmdb0/raspberry_pi_nas_setup_build_inside_old_lenovo/
+# https://www.reddit.com/r/raspberry_pi/comments/do9h7z/setup_my_home_network_pihole_i_know_the_picture/
+# https://blog.cryptoaustralia.org.au/instructions-for-setting-up-pi-hole/
+# https://github.com/RIOT-OS/RIOT/releases/tag/2019.10
+# http://dlavigne.dyndns.org:8081/matops/files/xfer/SQL/
+# https://www.statworx.com/de/blog/web-scraping-101-in-python-with-requests-beautifulsoup/
+# https://kanoki.org/2019/09/25/building-a-web-app-using-python-and-mongodb/
+# https://docs.xlwings.org/en/stable/quickstart.html
+# https://www.tutorialspoint.com/python_design_patterns/python_design_patterns_gist.htm
+# https://www.yourprimer.com/faq.html
+# https://writing.stackexchange.com/questions/49145/evil-plans-how-do-you-come-up-with-interesting-ones
+# http://programmerblog.net/nodejs-file-upload-tutorial/
+https://en.wikipedia.org/wiki/Howard_Hughes
+
+https://www.popularmechanics.com/science/a28120444/robotic-fish-blood-battery/
+
+https://blog.nature.org/science/2016/11/01/batteries-that-run-on-blood/
+
+Beastars was the one that the commic was referencing
+
+Dorohedoro is something that Dylan suggested to me, and just started releasing.
+
+Keep Your Hands Off Eizouken! is apparenly a really whacky comedy based loosely around creating anime.
+Depending on the type of stuff that might interest you, there's some other interesting stuff I could suggest as well
+Somali and the Forest Spirit is one I really enjoy, about a forest golem finding a human child and trying to find human's to return her to.
+
+
+https://www.scrumguides.org/
+
+https://duckduckgo.com/?q=scrum+resources&kp=1&t=brave&ia=web
+
+https://www.tutorialspoint.com/data_structures_algorithms/data_structure_environment.htm
+
+https://www.codewars.com/kata/5e16ffb7297fe00001114824/train/python
+
+
+def top3(products, amounts, prices):
+    group = {}
+    index = 0
+    highestValue = 0
+    # for index in range(0,3):
+    #     group[products[index]] = amounts[index] * prices[index]
+    
+    # for key in group.keys()
+    #     if group[key] > highestValue:
+    #         highestProduct = group[key]
+    
+    return True
+
+
+temp1 = (top3(products=["Computer", "Cell Phones", "Vacuum Cleaner"], amounts=[3,24,8], prices=[199,299,399]))
+
+temp2 = (top3(["Cell Phones", "Vacuum Cleaner", "Computer", "Autos", "Gold", "Fishing Rods", "Lego", " Speakers"], [5, 25, 2, 7, 10, 3, 2, 24], [51, 225, 22, 47, 510, 83, 82, 124]), ['Vacuum Cleaner', 'Gold', ' Speakers'])
+
+temp3 =(top3(["Cell Phones", "Vacuum Cleaner", "Computer", "Autos", "Gold", "Fishing Rods", "Lego", " Speakers"], [0, 12, 24, 17, 19, 23, 120, 8], [9, 24, 29, 31, 51, 8, 120, 14]), ['Lego', 'Gold', 'Computer'])
+
+print(temp1)
+# print(temp2)
+# print(temp3)
