@@ -68,3 +68,45 @@ temp3 =(top3(["Cell Phones", "Vacuum Cleaner", "Computer", "Autos", "Gold", "Fis
 print(temp1)
 # print(temp2)
 # print(temp3)
+
+
+# ALPHAMETICs
+
+p = 'SEND + MORE = MONEY'
+
+p = p.replace('+', '').replace('=', '').split()
+
+digit_a = [0,1,2,3,4,5,6,7,8,9]
+digit_b = []
+def return_digit(list1,list2):
+    c = list1.pop()
+    list2.append(c)
+    return c
+
+
+
+
+u = []
+for word in p:
+    for letter in word:
+        if letter not in u:
+            u.append(letter)
+        else:
+            pass
+
+#TODO all possible 0-9 combination for letters
+#2 limits, all digits assigned OR
+#all letters assigned
+
+#TODO asssign number to letter
+#TODO test equation
+#TODO reassign, retest
+#TODO no repeat
+
+# if len(u) > 10: 
+#     for count in range(0,10):
+#         print(return_digit(digit_a,digit_b))
+
+
+
+
