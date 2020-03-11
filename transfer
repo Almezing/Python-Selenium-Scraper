@@ -71,6 +71,7 @@ print(temp1)
 
 
 # ALPHAMETICs
+# https://docs.python.org/2/library/itertools.html#itertools.combinations
 
 p = 'SEND + MORE = MONEY'
 
