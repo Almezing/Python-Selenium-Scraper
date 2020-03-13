@@ -1,9 +1,9 @@
 """
 Chapter 6: Objects and Classes
-    Everything is an object. Objects contains both data (varables called attributes) and code (functions called methods)
+    Everything is an object. Objects contains both data (variables called attributes) and code (functions called methods)
 
     __init__
-        Python object initialization method that initiales an individual object from its class definition. 
+        Python object initialization method that initializes an individual object from its class definition. 
     self
         An argument that specifies that it referes to the individual object itself
     Inheritance
@@ -51,7 +51,7 @@ Chapter 6: Objects and Classes
 
 
 """
-* Loops up the definition of the Person class
+* Looks up the definition of the Person class
 * Instantiates (creates) a new object in the memory
 * Calls the object's __init__ methd, passing this newly-created object as self and the other argmuent ("Person's Name") as name
 * Stores the value of name in the object
@@ -78,6 +78,7 @@ class Worker(Person):
 employee = Worker("Ken", 22)
 # print(employee.name, employee.id)
 
+# Get and Set atttributes values with Properties
 
 class Cat():
     def __init__(self, input_name):
@@ -101,6 +102,7 @@ tabby.name = "Mel"
 print(tabby.name)
 
 # Define Properties with the use of @decorators
+# Doing this will allow for dot notation accessor type to be used for the methods
 class Dog():
     def __init__(self, input_name):
         self.hidden_name = input_name
