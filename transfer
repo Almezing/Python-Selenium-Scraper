@@ -16,6 +16,13 @@
 # https://writing.stackexchange.com/questions/49145/evil-plans-how-do-you-come-up-with-interesting-ones
 # http://programmerblog.net/nodejs-file-upload-tutorial/
 https://en.wikipedia.org/wiki/Howard_Hughes
+https://mockaroo.com/
+https://www.geeksforgeeks.org/top-algorithms-and-data-structures-for-competitive-programming/
+https://www.codewars.com/kata/5b5fe164b88263ad3d00250b/train/python
+https://ss64.com/
+
+Bret Winstead DISC (Distributed Idea Suppression Complex)
+    Distributed Information Suppression Complex
 
 https://www.popularmechanics.com/science/a28120444/robotic-fish-blood-battery/
 
@@ -62,3 +69,46 @@ temp3 =(top3(["Cell Phones", "Vacuum Cleaner", "Computer", "Autos", "Gold", "Fis
 print(temp1)
 # print(temp2)
 # print(temp3)
+
+
+# ALPHAMETICs
+# https://docs.python.org/2/library/itertools.html#itertools.combinations
+
+p = 'SEND + MORE = MONEY'
+
+p = p.replace('+', '').replace('=', '').split()
+
+digit_a = [0,1,2,3,4,5,6,7,8,9]
+digit_b = []
+def return_digit(list1,list2):
+    c = list1.pop()
+    list2.append(c)
+    return c
+
+
+
+
+u = []
+for word in p:
+    for letter in word:
+        if letter not in u:
+            u.append(letter)
+        else:
+            pass
+
+#TODO all possible 0-9 combination for letters
+#2 limits, all digits assigned OR
+#all letters assigned
+
+#TODO asssign number to letter
+#TODO test equation
+#TODO reassign, retest
+#TODO no repeat
+
+# if len(u) > 10: 
+#     for count in range(0,10):
+#         print(return_digit(digit_a,digit_b))
+
+
+
+

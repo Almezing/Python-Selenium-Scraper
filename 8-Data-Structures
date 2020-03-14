@@ -1,0 +1,92 @@
+1. Arrays
+An array is a structure of fixed-size, which can hold items of the same data type. It can be an array of integers, an array of floating-point numbers, an array of strings or even an array of arrays (known as multidimensional arrays).
+
+Fig 1. Visualization of basic Terminology of Arrays
+2. Linked Lists
+A linked list is a sequential structure that consists of a sequence of items in linear order which are linked to each other. Linked lists provide a simple and flexible representation of dynamic sets.
+Let’s consider the following terms regarding linked lists. You can get a clear idea by referring to Figure 2.
+Elements in a linked list are known as nodes.
+Each node contains a key and a pointer to its successor node, known as next.
+The attribute named head points to the first element of the linked list.
+The last element of the linked list is known as the tail.
+
+Fig 2. Visualization of basic Terminology of Linked Lists
+3. Stacks
+A stack is a LIFO (Last In First Out — the element placed at last can be accessed at first) structure which can be commonly found in many programming languages. This structure is named as “stack” because it resembles a real-world stack — a stack of plates.
+
+Image Source: pixabay
+Given below are the 2 basic operations that can be performed on a stack. Please refer to Figure 3 to get a better understanding of the stack operations.
+Push: Insert an element on to the top of the stack.
+Pop: Delete the topmost element and return it.
+
+Fig 3. Visualization of basic Operations of Stacks
+Furthermore, the following functions are provided for a stack in order to check its status.
+Peek: Return the top element of the stack without deleting it.
+isEmpty: Check if the stack is empty.
+isFull: Check if the stack is full.
+4. Queues
+A queue is a FIFO (First In First Out — the element placed at first can be accessed at first) structure which can be commonly found in many programming languages. This structure is named as “queue” because it resembles a real-world queue — people waiting in a queue.
+
+Image Source: pixabay
+Given below are the 2 basic operations that can be performed on a queue. Please refer to Figure 4 to get a better understanding of the stack operations.
+Enqueue: Insert an element to the end of the queue.
+Dequeue: Delete the element from the beginning of the queue.
+
+Fig 4. Visualization of Basic Operations of Queues
+5. Hash Tables
+A Hash Table is a data structure that stores values which have keys associated with each of them. Furthermore, it supports lookup efficiently if we know the key associated with the value. Hence it is very efficient in inserting and searching, irrespective of the size of the data.
+Direct Addressing uses the one-to-one mapping between the values and keys when storing in a table. However, there is a problem with this approach when there is a large number of key-value pairs. The table will be huge with so many records and may be impractical or even impossible to be stored, given the memory available on a typical computer. To avoid this issue we use hash tables.
+Hash Function
+A special function named as the hash function (h) is used to overcome the aforementioned problem in direct addressing.
+In direct accessing, a value with key k is stored in the slot k. Using the hash function, we calculate the index of the table (slot) to which each value goes. The value calculated using the hash function for a given key is called the hash value which indicates the index of the table to which the value is mapped.
+h(k) = k % m
+h: Hash function
+k: Key of which the hash value should be determined
+m: Size of the hash table (number of slots available). A prime value that is not close to an exact power of 2 is a good choice for m.
+
+Fig 5. Representation of a Hash Function
+6. Trees
+A tree is a hierarchical structure where data is organized hierarchically and are linked together. This structure is different than a linked list whereas, in a linked list, items are linked in a linear order.
+Binary Search Trees
+A binary search tree (BST), as the name suggests, is a binary tree where data is organized in a hierarchical structure. This data structure stores values in sorted order which we will look into the details during this lesson.
+Every node in a binary search tree comprises the following attributes.
+key: The value stored in the node.
+left: The pointer to the left child.
+right: The pointer to the right child.
+p: The pointer to the parent node.
+A binary search tree exhibits a unique property that distinguishes it from other trees. This property is known as the binary-search-tree property.
+Let x be a node in a binary search tree.
+If y is a node in the left subtree of x, then y.key ≤ x.key
+If y is a node in the right subtree of x, then y.key ≥ x.key
+
+Fig 6. Visualization of Basic Terminology of Trees.
+7. Heaps
+A Heap is a special case of a binary tree where the parent nodes are compared to their children with their values and are arranged accordingly.
+Let us see how we can represent heaps. Heaps can be represented using trees as well as arrays. Figures 7 and 8 show how we can represent a binary heap using a binary tree and an array.
+
+Fig 7. Binary Tree Representation of a Heap
+
+Fig 8. Array Representation of a Heap
+Heaps can be of 2 types.
+Min Heap — the key of the parent is less than or equal to those of its children. This is called the min-heap property. The root will contain the minimum value of the heap.
+Max Heap — the key of the parent is greater than or equal to those of its children. This is called the max-heap property. The root will contain the maximum value of the heap.
+8. Graphs
+A graph consists of a finite set of vertices or nodes and a set of edges connecting these vertices.
+The order of a graph is the number of vertices in the graph. The size of a graph is the number of edges in the graph.
+Two nodes are said to be adjacent if they are connected to each other by the same edge.
+Directed Graphs
+A graph G is said to be a directed graph if all its edges have a direction indicating what is the start vertex and what is the end vertex.
+We say that (u, v) is incident from or leaves vertex u and is incident to or enters vertex v.
+Self-loops: Edges from a vertex to itself.
+Undirected Graphs
+A graph G is said to be an undirected graph if all its edges have no direction. It can go in both ways between the two vertices.
+If a vertex is not connected to any other node in the graph, it is said to be isolated.
+
+Fig 9. Visualization of Terminology of Graphs
+A cheat sheet for the time complexities of the data structure operations can be found here.
+I hope you found this article useful as a simple introduction to data structures. I would love to hear your thoughts. 😇
+Thanks a lot for reading. 😊
+Cheers! 😃
+References
+[1] Introduction to Algorithms, Third Edition By Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein.
+[2] List of data structures from Wikipedia (https://en.wikipedia.org/wiki/List_of_data_structures)
