@@ -49,9 +49,6 @@ def signon(wd):
                 form_textfield = wd.find_element_by_xpath(path)
                 form_textfield.send_keys(line)
         action = wd.find_element_by_xpath(xpath_list[2])
-        form_textfield = ""
-        file_path = ""
-        fs.close()
         action.click()
         start = time.time()
         while "Sign In" in wd.title:
@@ -62,11 +59,10 @@ def signon(wd):
 
     except:
         print("Already signed in or not on correct page")
-        file_path = ""
-        form_textfield = ""
-        fs.close()
         signoff(wd)
-
+    fs.close()
+    del file_path
+    del form_textfield
     time.sleep(4)
 
 
