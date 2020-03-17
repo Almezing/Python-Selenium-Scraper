@@ -1,11 +1,12 @@
 """
 Python Quick Reference
+https://www.geeksforgeeks.org/search-an-element-in-a-linked-list-iterative-and-recursive/
 
-        Singly Linked List: Not a block of memory of data, but a list of pointers of data in memeory
+        Singly Linked List: Not a block of memory of data, but a list of pointers of data in memory
 
             This data structure consists of Nodes objects. A node can either be a head or a node after the head, and holds 2 properties: a reference or pointer to data and a reference to the next node in the structure. The first node is considered to be the head.
 
-            Because Single Linked List have a single link to the next node,the data structure is only forward traversable. There is not a link to the previous node. A Doubly Linked List, a linked list with a reference to the previous and next node, always one to travese the structure either way.
+            Because Single Linked List have a single link to the next node,the data structure is only forward traversable. There is not a link to the previous node. A Doubly Linked List, a linked list with a reference to the previous and next node, always one to traverse the structure either way.
 
 """
 # Node class object 
@@ -48,9 +49,9 @@ class SinglyLinkedList:
             return
         # Create Node
         new_Node = Node(dataValue)
-        # Make new Node nextValue the same the preivousNode nextValue 
+        # Make new Node nextValue the same the previousNode nextValue 
         new_Node.nextValue = previousNode.nextValue
-        # Make nextValue of preivousNode as new Node
+        # Make nextValue of previousNode as new Node
         previousNode.next = new_Node
 
     # Add a new Node at the end of the list
@@ -67,7 +68,7 @@ class SinglyLinkedList:
         # Add new Node to the list
         last.nextValue = new_Node
 
-    # Delete Node by the first occurance of key
+    # Delete Node by the first occurrence of key
     def deleteNode(self, key):
         temp = self.headValue
         #If headValue has the key to be deleted
@@ -94,6 +95,38 @@ class SinglyLinkedList:
             temp = None
             print("Key deleted")
 
+    # Length of Linked List through iteration
+    def length(self):
+        count = 0
+        temp = self.headValue
+        while(temp):
+            temp = temp.nextValue
+            count += 1
+        return count
+    # Search list for key (dataValue) through iteration
+    def search(self, key):
+        temp = self.headValue
+        key_bool = False
+        while(temp):
+            if key == temp.dataValue:
+                key_bool = True
+                break
+            temp = temp.nextValue
+        return key_bool
+    # Search list for key (dataValue) through recursion 
+    def searchRecursive(self, node,key):
+        # Base case
+        if(not node):
+            return False
+        if (node.dataValue == key):
+            return True
+        return self.searchRecursive(node.nextValue, key)
+
+    # Swap nodes given 2 keys
+    def swap(self, key1, key2):
+        pass
+
+
 sList = SinglyLinkedList()
 weekday = ["Monday", "Tueday", "Wednesday", "Thursday","Friday", "Saturday", "Sunday"]
 
@@ -101,12 +134,16 @@ sList.push(weekday.pop(0))
 
 for day in weekday:
     sList.append(day)
+# sList.print()
+# print(sList.length())
 
-print("New Head of Linked List")
-sList.print()
+# print(sList.search("Saturday"))
+# print(sList.search("Manday"))
 
-sList.deleteNode("Saturday")
-sList.print()
+
+print(sList.searchRecursive(sList.headValue, "Sturday"))
+
+
 
 """
 Doubly Linked List
