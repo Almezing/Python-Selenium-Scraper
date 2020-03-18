@@ -5,15 +5,15 @@ Chapter 6: Objects and Classes
     __init__
         Python object initialization method that initializes an individual object from its class definition. 
     self
-        An argument that specifies that it referes to the individual object itself
+        An argument that specifies that it refers to the individual object itself
     Inheritance
-        Create a new class from an existing class but with some addtions or changes. The existing class is know as a parent, superclass, or a base class. The new class created is know as a child, subclass, or derived class. These subclasses are specilized verions of the superclass
+        Create a new class from an existing class but with some additions or changes. The existing class is know as a parent, superclass, or a base class. The new class created is know as a child, subclass, or derived class. These subclasses are specialized versions of the superclass
 
     Override a Method
         Subclasses can change the the methods derived the superclass.
 
     Add A Method
-        Subclasess can add into themselves methods not found in their superclasses
+        Subclassess can add into themselves methods not found in their superclasses
 
     super()
         Ensure the parent class methods/attributes are passed to the child
@@ -21,25 +21,25 @@ Chapter 6: Objects and Classes
     Getter and Setter values and Properties
         All attributes and methods are public
 
-    @Decorators can be used intead of getter/setter methods
+    @Decorators can be used instead of getter/setter methods
 
     Can use ( __ ) in front of property name to have them semi-private
 
     Method types 
-        Instance method: methds that are normally used when creating classes
+        Instance method: methods that are normally used when creating classes
         Class method: method that affect a class as a whole and its objects
             this method is preceded by the decorator " @classmethod "
             and the first paremeter for the method is " cls " (stands for class)
         Static method: method that does not affect the class nor its objects. " @staticmethod ". Good for testing
 
     Duck Typing
-        Loose implemenation of polymorphism; apply the same operations to different objects regardless of their class
+        Loose implementation of polymorphism; apply the same operations to different objects regardless of their class
 
     Special Methods (magic methods) : __( something )__ 
         Like __init__
         
     Aggregation and Composition
-        Both mean the same thing; a structure that adds to an existing strucutre. Duck class with seperate Bill and Tail classes. 
+        Both mean the same thing; a structure that adds to an existing structure. Duck class with separate Bill and Tail classes. 
         Used to express relationship, but the classes independent
 
     Use for simplicity
@@ -53,7 +53,7 @@ Chapter 6: Objects and Classes
 """
 * Looks up the definition of the Person class
 * Instantiates (creates) a new object in the memory
-* Calls the object's __init__ methd, passing this newly-created object as self and the other argmuent ("Person's Name") as name
+* Calls the object's __init__ method, passing this newly-created object as self and the other argument ("Person's Name") as name
 * Stores the value of name in the object
 * Returns the new object
 * Attaches the name hunter to the object
@@ -271,7 +271,7 @@ my_car.about()
 # Named Tuples
 """
 Pros/Cons
-It looks and acts like an immutbale object
+It looks and acts like an immutable object
 It is more space- and time-efficient than objects
 You can access attributes by using dot notation instead of dictionary-style square brackets
 You can use it as a dictionary key
@@ -286,7 +286,7 @@ phone2 = Phoney_Class(**parts)
 print(phone2)
 
 """
-Excercises
+Exercises
 
 """
 
