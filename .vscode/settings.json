@@ -3,5 +3,5 @@
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.linting.pycodestyleEnabled": false,
-    "python.pythonPath": "C:\\Users\\Almezing\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe"
+    "python.pythonPath": "C:\\Users\\Almezing\\AppData\\Local\\Programs\\Python\\Python38\\python.exe"
 }

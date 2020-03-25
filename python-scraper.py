@@ -5,7 +5,6 @@ import xlwings as xw
 import pandas as pd
 import itertools
 import fileinput as fs
-from icecream import ic
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -15,15 +14,15 @@ from selenium.webdriver.chrome.options import Options
 
 start_time = time.time()
 # TODO chrome set up
-def setup_chrome():
+def setup_driver():
     cwd = str(os.getcwd())
-    chromedriver_path = cwd + r"\x\chromedriver.exe"
+    chromedriver_path = cwd + r"\x\Chromium-77\chromedriver.exe"
     options = Options()
     options.add_experimental_option(
         "prefs", {"download.prompt_for_download": False, "safebrowsing.enabled": True}
     )
     options.add_argument("--disable-gpu")
-    options.add_extension(f"{cwd}\\x\\ublock.crx")
+    options.add_extension(f"{cwd}\\x\\Chromium-77\\ublock.crx")
     options.binary_location = cwd + r"\x\Chromium-77\chrome.exe"
     driver = webdriver.Chrome(options=options, executable_path=chromedriver_path)
     return driver
@@ -410,7 +409,7 @@ def clean_data(data=None):
 
 def main():
     cwd = str(os.getcwd())
-    with setup_chrome() as wd:
+    with setup_driver() as wd:
         signon(wd)
         # csv_download(wd, url_path)
         data = aggergate_data(wd)
